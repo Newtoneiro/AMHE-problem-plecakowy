@@ -27,8 +27,19 @@ Problem plecakowy (ang. knapsack problem) to klasyczny problem optymalizacyjny, 
 
 ## Pytania
 
-- Jakie są oczekiwane terminy?
-- Pracować na jakichś gotowych danych, czy stworzyć generator? Z jaką ilością przedmiotów działać?
-- Czy dobrze zrozumieliśmy algorytm PBIL?
-- 'porównując z wybraną metaheurystyką.' - chodzi o porównanie PBIL z klasycznym rozwiązaniem problemu plecakowego, opartym na stosunku wartości do wagi elementu? W jaki sposób miałoby wyglądać takie porównanie? Złożoność czasowa / lepsze rozwiązanie?
-- Co ma zawierać się w dokładnej analizie statystycznej?
+- Jakie są oczekiwane terminy? - mam zapisane dobre
+- Pracować na jakichś gotowych danych, czy stworzyć generator? Z jaką ilością przedmiotów działać? - Generator danych zrobić, ilość przedmiotów parametryzowana w ramach badań, małe <= 10, średnie <=50, duże > 50 | skorelowanie danych polega na dobraniu odpowiedniego generatora - normalnego / jednostajnego
+- Czy dobrze zrozumieliśmy algorytm PBIL? - zostaną dosłane dokumenty
+- 'porównując z wybraną metaheurystyką.' - chodzi o porównanie PBIL z klasycznym rozwiązaniem problemu plecakowego, opartym na stosunku wartości  do wagi elementu? W jaki sposób miałoby wyglądać takie porównanie? Złożoność czasowa / lepsze rozwiązanie? - nie, chodzi o np. algorytm ewolucyjny
+- Co ma zawierać się w dokładnej analizie statystycznej? - np. średnie odchylenie standardowe, najlepszy i najgorszy wynik, testy statystyczne porównujące dwa algorytmy - np. test studenta/ można dołączyć czasy obliczeń i zajętość pamięci - wykazać, że złożoność czasowa rośnie wykładniczo ze zwiekszaniem ilości przedmiotów
+
+## Notatki
+
+27/03
+
+Dokumentacja wstępna:
+- Temat
+- Opis problemu - funkcja celu, opis badań - dane skorelowane, generator itd.
+- Opis algorytmów - PBIL, na podstawie literatury, pseudokod, reprezentacja rozwiązania, hiperparametry i ten drugi - np. klasyczny ewolucyjny, a*
+- Opis drugiego algorytmu do porównania
+- eksperymenty krótko jak będą wyglądać
