@@ -10,6 +10,7 @@ Zalecane konsultacje u prowadzącego przed przystąpieniem do pracy nad projekte
 ### Literatura:
 - DOI:10.3390/app11199136 [link](https://www.mdpi.com/2076-3417/11/19/9136)
 - DOI:10.1109/ICNC.2007.126 [link](https://ieeexplore.ieee.org/document/4344579)
+- Podobne porównanie algorytmów [link](https://www.researchgate.net/publication/260984091_A_Comparative_Study_of_Evolutionary_Algorithms)
 
 
 ### Problem plecakowy
