@@ -1,4 +1,3 @@
-import numpy as np
 from dataclasses import dataclass
 
 
@@ -6,13 +5,10 @@ from dataclasses import dataclass
 class AlgorithmParams:
     """Class for parametrizing algotithms."""
 
-    dataset: np.array
     population_size: int
     num_best: int
     learning_rate: float
     epochs: int
-    backpack_capacity: float
 
-    @property
-    def genome_length(self):
-        return self.dataset.shape[0]
+    def generate_file_name(self):
+        return f"{self.population_size}_{self.num_best}_{str(self.learning_rate).split("0.")[1]}_{self.epochs}"

@@ -6,8 +6,13 @@ from src.algorithms.algorithm_base import AlgorithmBase
 class ClassicEvolutional(AlgorithmBase):
     """Contains implementation of the Classic Evolutional algorithm."""
 
-    def __init__(self, params: AlgorithmParams):
-        super().__init__(params)
+    def __init__(
+        self,
+        params: AlgorithmParams,
+        dataset: np.array,
+        backpack_capacity: float = None,
+    ):
+        super().__init__(params, dataset, backpack_capacity)
 
         self._init_population()
 
@@ -15,7 +20,7 @@ class ClassicEvolutional(AlgorithmBase):
         """Generate the initial population"""
         self.best_fitness = -np.inf
         self.population = np.round(
-            np.random.rand(self.population_size, self.genome_length)
+            np.random.rand(self.population_size, self.dataset.shape[0])
         ).astype(int)
 
     def generate_population(self):
@@ -24,7 +29,7 @@ class ClassicEvolutional(AlgorithmBase):
 
         self.best_fitness = max(self.best_fitness, np.max(fitness_values))
 
-        best_indices = np.argsort(fitness_values)[-self.num_best:]
+        best_indices = np.argsort(fitness_values)[-self.num_best :]
         best_individuals = self.population[best_indices]
 
         offspring = []
@@ -57,6 +62,9 @@ class ClassicEvolutional(AlgorithmBase):
         """Mutate an array of individuals using bit-flipping on random position"""
         # Create a copy to avoid modifying originals
         mutated = individuals.copy()
+
+        if not len(individuals):
+            return mutated
 
         n_individuals, genome_length = individuals.shape
         flip_indices = np.random.randint(0, genome_length, size=n_individuals)

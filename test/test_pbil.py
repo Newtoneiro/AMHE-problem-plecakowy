@@ -10,53 +10,49 @@ def sample_dataset():
 
 
 @pytest.fixture
-def algorithm_params(sample_dataset):
+def algorithm_params():
     return AlgorithmParams(
-        dataset=sample_dataset,
         population_size=100,
         num_best=10,
         learning_rate=0.1,
         epochs=50,
-        backpack_capacity=10,
     )
 
 
-def test_pbil_init(algorithm_params):
-    pbil = PBIL(algorithm_params)
+def test_pbil_init(algorithm_params, sample_dataset):
+    pbil = PBIL(algorithm_params, sample_dataset)
     assert hasattr(pbil, "probability_vector")
-    assert pbil.probability_vector.shape == (algorithm_params.genome_length,)
+    assert pbil.probability_vector.shape == (sample_dataset.shape[0],)
     assert np.all(pbil.probability_vector == BASE_PROBABILITY)
 
 
-def test_pbil_getattr_existing_param(algorithm_params):
-    pbil = PBIL(algorithm_params)
+def test_pbil_getattr_existing_param(algorithm_params, sample_dataset):
+    pbil = PBIL(algorithm_params, sample_dataset)
     assert pbil.population_size == algorithm_params.population_size
     assert pbil.learning_rate == algorithm_params.learning_rate
-    assert pbil.genome_length == algorithm_params.genome_length
+    assert np.array_equal(pbil.dataset, sample_dataset)
 
 
-def test_pbil_getattr_existing_attr(algorithm_params):
-    pbil = PBIL(algorithm_params)
+def test_pbil_getattr_existing_attr(algorithm_params, sample_dataset):
+    pbil = PBIL(algorithm_params, sample_dataset)
     pbil.custom_attr = 42
     assert pbil.custom_attr == 42
 
 
-def test_pbil_getattr_missing(algorithm_params):
-    pbil = PBIL(algorithm_params)
+def test_pbil_getattr_missing(algorithm_params, sample_dataset):
+    pbil = PBIL(algorithm_params, sample_dataset)
     with pytest.raises(AttributeError):
         _ = pbil.non_existent_attr
 
 
 def test_init_probability_vector(sample_dataset):
     params = AlgorithmParams(
-        dataset=sample_dataset,
         population_size=50,
         num_best=5,
         learning_rate=0.2,
         epochs=100,
-        backpack_capacity=10,
     )
-    pbil = PBIL(params)
+    pbil = PBIL(params, sample_dataset)
     assert len(pbil.probability_vector) == len(sample_dataset)
     assert np.all(pbil.probability_vector == BASE_PROBABILITY)
 
@@ -64,35 +60,31 @@ def test_init_probability_vector(sample_dataset):
 def test_calculate_penalty_factor():
     dataset = np.array([[5, 10], [3, 6], [2, 8]])
     params = AlgorithmParams(
-        dataset=dataset,
         population_size=50,
         num_best=5,
         learning_rate=0.2,
         epochs=100,
-        backpack_capacity=10,
     )
-    pbil = PBIL(params)
-    pbil.calculate_penalty_factor()
+    pbil = PBIL(params, dataset, backpack_capacity=10)
+    pbil._calculate_penalty_factor()
 
     assert pytest.approx(pbil.penalty_factor) == 48
 
 
 def test_generate_population(sample_dataset):
     params = AlgorithmParams(
-        dataset=sample_dataset,
         population_size=50,
         num_best=5,
         learning_rate=0.2,
         epochs=100,
-        backpack_capacity=10,
     )
-    pbil = PBIL(params)
+    pbil = PBIL(params, sample_dataset)
     population = pbil.generate_population()
     assert population.shape == (50, 3)
 
 
-def test_generate_population_probability_distribution(algorithm_params):
-    pbil = PBIL(algorithm_params)
+def test_generate_population_probability_distribution(algorithm_params, sample_dataset):
+    pbil = PBIL(algorithm_params, sample_dataset)
     # Set specific probabilities for testing
     test_probabilities = np.array([0.0, 0.25, 0.75])
     pbil.probability_vector = test_probabilities
@@ -109,14 +101,12 @@ def test_generate_population_probability_distribution(algorithm_params):
 def test_evaluate_fitness():
     dataset = np.array([[5, 10], [3, 8], [6, 5]])
     params = AlgorithmParams(
-        dataset=dataset,
         population_size=10,
         num_best=5,
         learning_rate=0.1,
         epochs=50,
-        backpack_capacity=10,
     )
-    pbil = PBIL(params)
+    pbil = PBIL(params, dataset, backpack_capacity=10)
 
     # valid solution
     population = np.array([[1, 1, 0]])
@@ -137,14 +127,12 @@ def test_evaluate_fitness():
 def test_update_probability_vector_basic():
     dataset = np.array([[1, 2], [3, 4]])
     params = AlgorithmParams(
-        dataset=dataset,
         population_size=10,
         num_best=3,
         learning_rate=0.5,
         epochs=50,
-        backpack_capacity=5,
     )
-    pbil = PBIL(params)
+    pbil = PBIL(params, dataset)
     pbil.probability_vector = np.array([0.3, 0.7])
 
     best_individuals = np.array([[1, 0], [1, 0], [0, 1]])

@@ -1,8 +1,10 @@
 import os
 import csv
 import numpy as np
+from src.objects.algorithm_params import AlgorithmParams
 
 
+LOGDIR = os.path.join(os.path.abspath(__file__), "..", "..", "logs")
 FIELDNAMES = [
     "algorithm_name",
     "dataset_size",
@@ -14,22 +16,21 @@ FIELDNAMES = [
     "avg_solution_fitness",
     "variance_solution_fitness",
 ]
-
 PRECISION = 6
 
 
 class Logger:
-    def __init__(self, output_file="algorithm_comparison.csv"):
-        self.output_file = output_file
-
-        self._init_logger_file()
-
-    def _init_logger_file(self):
+    def init_logger_file(self, params: AlgorithmParams):
         """Initializes and empty logger file"""
+        file_name = params.generate_file_name()
+        self.output_file = os.path.join(LOGDIR, f"{file_name}.csv")
+
         if not os.path.exists(self.output_file):
             with open(self.output_file, "w", newline="") as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=FIELDNAMES)
                 writer.writeheader()
+        else:
+            raise FileExistsError(f"Cannot override log file {file_name}.")
 
     def log_step(
         self,

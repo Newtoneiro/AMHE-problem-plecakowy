@@ -8,20 +8,25 @@ BASE_PROBABILITY = 0.5
 class PBIL(AlgorithmBase):
     """Contains implementation of the PBIL algorithm."""
 
-    def __init__(self, params: AlgorithmParams):
-        super().__init__(params)
+    def __init__(
+        self,
+        params: AlgorithmParams,
+        dataset: np.array,
+        backpack_capacity: float = None,
+    ):
+        super().__init__(params, dataset, backpack_capacity)
 
         self._init_probability_vector()
 
     def _init_probability_vector(self):
         """Initializes the base probability vector"""
         self.best_fitness = -np.inf
-        self.probability_vector = np.full(self.genome_length, BASE_PROBABILITY)
+        self.probability_vector = np.full(self.dataset.shape[0], BASE_PROBABILITY)
 
     def generate_population(self):
         """Initialize the population based on probability vector"""
         return (
-            np.random.rand(self.population_size, self.genome_length)
+            np.random.rand(self.population_size, self.dataset.shape[0])
             < self.probability_vector
         ).astype(int)
 
@@ -40,7 +45,7 @@ class PBIL(AlgorithmBase):
 
             self.best_fitness = max(self.best_fitness, np.max(fitness_values))
 
-            best_indices = np.argsort(fitness_values)[-self.num_best:]
+            best_indices = np.argsort(fitness_values)[-self.num_best :]
             best_individuals = population[best_indices]
             self.update_probability_vector(best_individuals)
 

@@ -10,23 +10,21 @@ def sample_dataset():
 
 
 @pytest.fixture
-def algorithm_params(sample_dataset):
+def algorithm_params():
     return AlgorithmParams(
-        dataset=sample_dataset,
         population_size=100,
         num_best=10,
         learning_rate=0.1,
         epochs=50,
-        backpack_capacity=10,
     )
 
 
-def test_classic_evolutional_init(algorithm_params):
-    ce = ClassicEvolutional(algorithm_params)
+def test_classic_evolutional_init(algorithm_params, sample_dataset):
+    ce = ClassicEvolutional(algorithm_params, sample_dataset)
     assert hasattr(ce, "population")
     assert ce.population.shape == (
         algorithm_params.population_size,
-        algorithm_params.genome_length,
+        sample_dataset.shape[0],
     )
 
 

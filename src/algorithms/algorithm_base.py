@@ -8,8 +8,17 @@ PENALTY_FACTOR_BASE = 2.0
 class AlgorithmBase(ABC):
     """Base implementation for concrete algorithms"""
 
-    def __init__(self, params: AlgorithmParams):
+    def __init__(
+        self,
+        params: AlgorithmParams,
+        dataset: np.array,
+        backpack_capacity: float = None,
+    ):
         self.params = params
+        self.dataset = dataset
+        self.backpack_capacity = (
+            backpack_capacity if backpack_capacity else self.dataset.shape[0]
+        )
 
         self._calculate_penalty_factor()
 
