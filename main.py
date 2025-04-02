@@ -7,9 +7,9 @@ from src.custom_logger import Logger
 if __name__ == "__main__":
     ac = AlgorithmsComparer(ComparerParams(30), Logger())
     params = AlgorithmParams(
-        population_size=300,
-        num_best=50,
+        population_size=150,
+        num_best=20,
         learning_rate=0.01,
-        epochs=300,
+        epochs=200,
     )
     ac.run_comparison(params)

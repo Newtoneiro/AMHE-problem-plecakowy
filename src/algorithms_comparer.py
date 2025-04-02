@@ -11,14 +11,6 @@ from src.objects.generator_params import GeneratorParams
 from src.data_generator import DataGenerator
 from src.custom_logger import Logger
 
-MAX_LEARNING_RATE = 0.01
-DATASET_SIZE_LIMIT = 100
-DATASET_SIZES_STEP = {
-    1: 1,
-    10: 2,
-    50: 5,
-}
-
 
 class AlgorithmsComparer:
     """Logic for comparing the algorithms"""
@@ -73,9 +65,9 @@ class AlgorithmsComparer:
         dataset_size = 1
         step = 1
         with tqdm(
-            total=DATASET_SIZE_LIMIT, desc="Comparing Algorithms"
+            total=self.dataset_size_limit, desc="Comparing Algorithms"
         ) as pbar_dataset:
-            while dataset_size != DATASET_SIZE_LIMIT:
+            while dataset_size != self.dataset_size_limit:
                 for data_related, distribution in zip(
                     [True, False],
                     [
@@ -98,9 +90,9 @@ class AlgorithmsComparer:
                     self._run_single_comparison(params, dataset, data_related)
 
                 dataset_size += step
-                if dataset_size in DATASET_SIZES_STEP:
-                    step = DATASET_SIZES_STEP[
+                if dataset_size in self.dataset_sizes_step:  # adjust step based on dataset size
+                    step = self.dataset_sizes_step[
                         dataset_size
-                    ]  # 1 for small, 2 for medium and 3 for large
+                    ]
 
                 pbar_dataset.update(step)

@@ -1,2 +1,0 @@
-algorithm_name,dataset_size,data_corelated,avg_execution_time,avg_memory_usage,worst_solution_fitness,best_solution_fitness,avg_solution_fitness,variance_solution_fitness
-PBIL,1,True,0.016223,0.016445,0.421579,0.421579,0.421579,0.0
