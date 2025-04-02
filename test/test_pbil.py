@@ -23,7 +23,7 @@ def algorithm_params(sample_dataset):
 
 def test_pbil_init(algorithm_params):
     pbil = PBIL(algorithm_params)
-    assert hasattr(pbil, 'probability_vector')
+    assert hasattr(pbil, "probability_vector")
     assert pbil.probability_vector.shape == (algorithm_params.genome_length,)
     assert np.all(pbil.probability_vector == BASE_PROBABILITY)
 
@@ -62,11 +62,7 @@ def test_init_probability_vector(sample_dataset):
 
 
 def test_calculate_penalty_factor():
-    dataset = np.array([
-        [5, 10],
-        [3, 6],
-        [2, 8]
-    ])
+    dataset = np.array([[5, 10], [3, 6], [2, 8]])
     params = AlgorithmParams(
         dataset=dataset,
         population_size=50,
@@ -88,7 +84,7 @@ def test_generate_population(sample_dataset):
         num_best=5,
         learning_rate=0.2,
         epochs=100,
-        backpack_capacity=10
+        backpack_capacity=10,
     )
     pbil = PBIL(params)
     population = pbil.generate_population()
@@ -146,16 +142,12 @@ def test_update_probability_vector_basic():
         num_best=3,
         learning_rate=0.5,
         epochs=50,
-        backpack_capacity=5
+        backpack_capacity=5,
     )
     pbil = PBIL(params)
     pbil.probability_vector = np.array([0.3, 0.7])
 
-    best_individuals = np.array([
-        [1, 0],
-        [1, 0],
-        [0, 1]
-    ])
+    best_individuals = np.array([[1, 0], [1, 0], [0, 1]])
 
     pbil.update_probability_vector(best_individuals)
 

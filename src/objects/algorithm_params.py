@@ -5,6 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class AlgorithmParams:
     """Class for parametrizing algotithms."""
+
     dataset: np.array
     population_size: int
     num_best: int

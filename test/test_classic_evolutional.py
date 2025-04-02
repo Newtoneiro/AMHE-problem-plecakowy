@@ -23,8 +23,11 @@ def algorithm_params(sample_dataset):
 
 def test_classic_evolutional_init(algorithm_params):
     ce = ClassicEvolutional(algorithm_params)
-    assert hasattr(ce, 'population')
-    assert ce.population.shape == (algorithm_params.population_size, algorithm_params.genome_length)
+    assert hasattr(ce, "population")
+    assert ce.population.shape == (
+        algorithm_params.population_size,
+        algorithm_params.genome_length,
+    )
 
 
 def test_crossover_even_length_returns_two_offspring():
@@ -62,11 +65,7 @@ def test_crossover_single_gene():
 
 
 def test_mutate_no_mutation_when_rate_zero():
-    originals = np.array([
-        [1, 0, 1, 0],
-        [1, 1, 0, 1],
-        [0, 0, 0, 0]
-    ])
+    originals = np.array([[1, 0, 1, 0], [1, 1, 0, 1], [0, 0, 0, 0]])
     mutateds = ClassicEvolutional.mutate(originals)
 
     diffs = originals != mutateds

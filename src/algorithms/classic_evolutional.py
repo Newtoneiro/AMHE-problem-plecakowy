@@ -5,6 +5,7 @@ from src.algorithms.algorithm_base import AlgorithmBase
 
 class ClassicEvolutional(AlgorithmBase):
     """Contains implementation of the Classic Evolutional algorithm."""
+
     def __init__(self, params: AlgorithmParams):
         super().__init__(params)
 
@@ -12,17 +13,25 @@ class ClassicEvolutional(AlgorithmBase):
 
     def _init_population(self):
         """Generate the initial population"""
-        self.population = np.round(np.random.rand(self.population_size, self.genome_length)).astype(int)
+        self.best_fitness = -np.inf
+        self.population = np.round(
+            np.random.rand(self.population_size, self.genome_length)
+        ).astype(int)
 
     def generate_population(self):
         """Generate the population in classic evolution algorithm way"""
         fitness_values = self.evaluate_fitness(self.population)
+
+        self.best_fitness = max(self.best_fitness, np.max(fitness_values))
+
         best_indices = np.argsort(fitness_values)[-self.num_best:]
         best_individuals = self.population[best_indices]
 
         offspring = []
         for _ in range(self.population_size - len(best_individuals)):
-            parent1, parent2 = best_individuals[np.random.choice(len(best_individuals), 2, replace=False)]
+            parent1, parent2 = best_individuals[
+                np.random.choice(len(best_individuals), 2, replace=False)
+            ]
             child1, child2 = self.crossover(parent1, parent2)
             offspring.extend([child1, child2])
 
@@ -62,7 +71,4 @@ class ClassicEvolutional(AlgorithmBase):
         for epoch_nr in range(self.epochs):
             self.population = self.generate_population()
 
-        fitness_values = self.evaluate_fitness(self.population)
-        current_best_idx = np.argmax(fitness_values)
-
-        return self.population[current_best_idx]
+        return self.best_fitness
