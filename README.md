@@ -44,3 +44,7 @@ Dokumentacja wstępna:
 - Opis algorytmów - PBIL, na podstawie literatury, pseudokod, reprezentacja rozwiązania, hiperparametry i ten drugi - np. klasyczny ewolucyjny, a*
 - Opis drugiego algorytmu do porównania
 - eksperymenty krótko jak będą wyglądać
+
+
+3/02
+- zbadać różnice w przypadku bardzo dużych danych (ekstremalny przypadek) ~500

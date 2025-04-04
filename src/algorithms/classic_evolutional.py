@@ -29,7 +29,7 @@ class ClassicEvolutional(AlgorithmBase):
 
         self.best_fitness = max(self.best_fitness, np.max(fitness_values))
 
-        best_indices = np.argsort(fitness_values)[-self.num_best :]
+        best_indices = np.argsort(fitness_values)[-self.num_best:]
         best_individuals = self.population[best_indices]
 
         offspring = []
